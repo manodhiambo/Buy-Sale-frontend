@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
+	console.log("Rendering HomePage component");
 	  return (
 		      <div style={{ textAlign: "center", marginTop: "20px" }}>
 		        <h1>Welcome to the trading platform</h1>
