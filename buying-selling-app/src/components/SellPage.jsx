@@ -1,78 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "../api/apiService";
 
 const SellPage = () => {
-	  const [product, setProduct] = useState({
-		      name: '',
-		      description: '',
-		      price: '',
-		      image: null,
-		    });
+	  const [itemName, setItemName] = useState("");
+	  const [category, setCategory] = useState("");
+	  const [description, setDescription] = useState("");
+	  const [price, setPrice] = useState("");
 
-	  const handleChange = (e) => {
-		      const { name, value } = e.target;
-		      setProduct({ ...product, [name]: value });
-		    };
-
-	  const handleFileChange = (e) => {
-		      setProduct({ ...product, image: e.target.files[0] });
-		    };
-
-	  const handleSubmit = (e) => {
-		      e.preventDefault();
-
-		  // Add API call to upload the product here
-		  console.log('Uploading product:', product);
-		    };
+	const handleSell = async (e) => {
+		  e.preventDefault();
+		  try {
+			      const newProduct = { name: itemName, category, description, price };
+			      await axios.post("/products", newProduct);
+			      alert("Product added successfully!");
+			    } catch (error) {
+				        console.error(error.response.data);
+				        alert("Failed to add product.");
+				      }
+	};
 
 	  return (
-		      <div className="container mx-auto max-w-lg p-6 bg-white rounded-lg shadow-md">
-		        <h2 className="text-2xl font-bold mb-4 text-center">Sell Product</h2>
-		        <form onSubmit={handleSubmit}>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Product Name</label>
+		      <div>
+		        <h2>Sell an Item</h2>
+		        <form onSubmit={handleSell}>
+		          <div>
+		            <label>Item Name:</label>
 		            <input
 		              type="text"
-		              name="name"
-		              value={product.name}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter product name"
+		              value={itemName}
+		              onChange={(e) => setItemName(e.target.value)}
 		            />
 		          </div>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Description</label>
-		            <textarea
-		              name="description"
-		              value={product.description}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter product description"
-		            ></textarea>
+		          <div>
+		            <label>Category:</label>
+		            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+		              <option value="">Select Category</option>
+		              <option value="Electronics">Electronics</option>
+		              <option value="Fashion">Fashion</option>
+		              <option value="Home">Home</option>
+		              <option value="Books">Books</option>
+		            </select>
 		          </div>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Price</label>
+		          <div>
+		            <label>Description:</label>
+		            <textarea
+		              value={description}
+		              onChange={(e) => setDescription(e.target.value)}
+		            />
+		          </div>
+		          <div>
+		            <label>Price:</label>
 		            <input
 		              type="number"
-		              name="price"
-		              value={product.price}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter product price"
+		              value={price}
+		              onChange={(e) => setPrice(e.target.value)}
 		            />
 		          </div>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Image</label>
-		            <input type="file" onChange={handleFileChange} className="w-full" />
-		          </div>
-		          <button
-		            type="submit"
-		            className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
-		          >
-		            Upload Product
-		          </button>
+		          <button type="submit">Submit</button>
 		        </form>
 		      </div>
 		    );
 };
 
 export default SellPage;
+

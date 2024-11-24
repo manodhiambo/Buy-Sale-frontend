@@ -1,68 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "../api/apiService";
 
 const RegisterPage = () => {
-	  const [formData, setFormData] = useState({
-		      name: '',
-		      email: '',
-		      password: '',
-		    });
+	  const [email, setEmail] = useState("");
+	  const [password, setPassword] = useState("");
 
-	  const handleChange = (e) => {
-		      setFormData({ ...formData, [e.target.name]: e.target.value });
-		    };
-
-	  const handleSubmit = (e) => {
+	  const handleRegister = async (e) => {
 		      e.preventDefault();
-
-		  console.log('Registering user with:', formData);
+		      try {
+			            const response = await axios.post("/auth/register", { email, password });
+			            alert(response.data.message || "Registration successful! Check your email or phone for the authentication code.");
+			          } catch (error) {
+					        console.error(error.response.data);
+					        alert(error.response.data.message || "Registration failed!");
+					      }
 		    };
 
 	  return (
-		      <div className="container mx-auto max-w-md p-6 bg-white rounded-lg shadow-md">
-		        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-		        <form onSubmit={handleSubmit}>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Name</label>
-		            <input
-		              type="text"
-		              name="name"
-		              value={formData.name}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter your name"
-		            />
-		          </div>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Email</label>
-		            <input
-		              type="email"
-		              name="email"
-		              value={formData.email}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter your email"
-		            />
-		          </div>
-		          <div className="mb-4">
-		            <label className="block text-sm font-medium mb-1">Password</label>
-		            <input
-		              type="password"
-		              name="password"
-		              value={formData.password}
-		              onChange={handleChange}
-		              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-		              placeholder="Enter your password"
-		            />
-		          </div>
-		          <button
-		            type="submit"
-		            className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
-		          >
-		            Register
-		          </button>
-		        </form>
-		      </div>
+		  <div className="flex flex-col items-center bg-gray-100 min-h-screen p-10">
+		    <h2 className="text-3xl font-bold mb-6 text-blue-700">Register</h2>
+		    <form onSubmit={handleRegister} className="w-full max-w-md bg-white p-8 rounded shadow-md">
+		      <input
+		        className="w-full p-3 mb-4 border rounded"
+		        type="email"
+		        placeholder="Enter your email"
+		        value={email}
+		        onChange={(e) => setEmail(e.target.value)}
+		      />
+		      <input
+		        className="w-full p-3 mb-4 border rounded"
+		        type="password"
+		        placeholder="Create a password"
+		        value={password}
+		        onChange={(e) => setPassword(e.target.value)}
+		      />
+		      <button
+		        type="submit"
+		        className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+		      >
+		        Register
+		      </button>
+		    </form>
+		  </div>
 		    );
 };
 
 export default RegisterPage;
+

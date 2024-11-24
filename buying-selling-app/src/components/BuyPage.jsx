@@ -1,23 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "../api/apiService";
 
 const BuyPage = () => {
-	  const products = [
-		  { id: 1, name: 'Smartphone', price: 500, image: 'https://via.placeholder.com/150' },
-		  { id: 2, name: 'Laptop', price: 1200, image: 'https://via.placeholder.com/150' },
-	  ];
+	  const [searchQuery, setSearchQuery] = useState("");
+	  const [products, setProducts] = useState([]);
 
-	return (
-		    <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-		      {products.map((product) => (
-			              <div key={product.id} className="bg-white border rounded-lg shadow-md p-4">
-			                <img src={product.image} alt={product.name} className="w-full h-48 object-cover mb-4" />
-			                <h2 className="text-xl font-bold">{product.name}</h2>
-			                <p className="text-lg text-gray-700">${product.price}</p>
-			                <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">Buy Now</button>
-			              </div>
-			            ))}
-		    </div>
-		  );
+	  useEffect(() => {
+		  // Fetch all products when the page loads
+		   axios.get("/products").then((res) => {
+			         setProducts(res.data);
+			       });
+		    }, []);
+	const handleSearch = async (e) => {
+		  e.preventDefault();
+		  try {
+			      const res = await axios.get(`/products?search=${searchQuery}`);
+			      setProducts(res.data);
+			    } catch (error) {
+				        console.error(error.response.data);
+				        alert("Failed to search for products.");
+				      }
+	};
+
+	  return (
+		      <div>
+		        <h2>Buy Items</h2>
+		        <form onSubmit={handleSearch}>
+		          <input
+		            type="text"
+		            placeholder="Search for an item..."
+		            value={searchQuery}
+		            onChange={(e) => setSearchQuery(e.target.value)}
+		          />
+		          <button type="submit">Search</button>
+		        </form>
+		        <div>
+		          <h3>Available Products</h3>
+		          {products.map((product) => (
+				            <div key={product.id}>
+				              <h4>{product.name}</h4>
+				              <p>{product.description}</p>
+				              <p>Price: ${product.price}</p>
+				            </div>
+				          ))}
+		        </div>
+		      </div>
+		    );
 };
 
 export default BuyPage;
