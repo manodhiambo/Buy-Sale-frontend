@@ -5,6 +5,7 @@ const ProfilePage = () => {
 		      name: 'Kevin Owino Odhiambo',
 		      email: 'kevin@example.com',
 		      joined: 'January 1, 2022',
+		  phone: +254703445756
 		    };
 
 	  return (
@@ -14,6 +15,7 @@ const ProfilePage = () => {
 		          <h2 className="text-2xl font-bold mb-4">{user.name}</h2>
 		          <p className="text-lg text-gray-700 mb-2"><strong>Email:</strong> {user.email}</p>
 		          <p className="text-lg text-gray-700"><strong>Joined:</strong> {user.joined}</p>
+		   <p className="text-lg text-gray-700 mb-2"><strong>Phone:</strong> {user.phone}</p>
 		        </div>
 		      </div>
 		    );

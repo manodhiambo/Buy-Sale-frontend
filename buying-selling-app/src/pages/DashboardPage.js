@@ -1,26 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
 	  return (
-		      <div className="max-w-md mx-auto bg-gray-100 p-6 rounded-lg shadow-md text-center">
-		        <h2 className="text-2xl font-bold mb-6">Welcome to the Dashboard</h2>
-		        <div className="space-y-4">
-		          <Link
-		            to="/buy"
-		            className="block bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
-		          >
-		            Buy Products
-		          </Link>
-		          <Link
-		            to="/sell"
-		            className="block bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-		          >
-		            Sell Products
-		          </Link>
-		        </div>
+		      <div>
+		        <h2>Welcome to Your Dashboard</h2>
+		        <p>You are now a family, let’s build our country together, feel at home!</p>
+		        <nav>
+		          <Link to="/dashboard/buy">Buy</Link>
+		          <br />
+		          <Link to="/dashboard/sell">Sell</Link>
+		          <br />
+		          <Link to="/dashboard/profile">Profile</Link>
+		        </nav>
 		      </div>
 		    );
 };
 
 export default DashboardPage;
+
